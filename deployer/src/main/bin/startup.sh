@@ -12,6 +12,7 @@ esac
 base=${bin_abs_path}/..
 canal_conf=$base/conf/canal.properties
 canal_local_conf=$base/conf/canal_local.properties
+kafka_jaas_conf=$base/conf/kafka_client_producer_jaas.conf
 logback_configurationFile=$base/conf/logback.xml
 export LANG=en_US.UTF-8
 export BASE=$base
@@ -86,7 +87,7 @@ else
 	JAVA_OPTS="-server -Xms1024m -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:MaxPermSize=128m "
 fi
 
-JAVA_OPTS=" $JAVA_OPTS -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8"
+JAVA_OPTS=" $JAVA_OPTS -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -Djava.security.auth.login.config=$kafka_jaas_conf"
 CANAL_OPTS="-DappName=otter-canal -Dlogback.configurationFile=$logback_configurationFile -Dcanal.conf=$canal_conf"
 
 if [ -e $canal_conf -a -e $logback_configurationFile ]
